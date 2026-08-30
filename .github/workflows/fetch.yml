@@ -9,6 +9,12 @@ on:
 permissions:
   contents: write
 
+# 同時実行を防ぐ (cron と mokou-timeline からの起動が重なったときに、
+# 両者が twitch_archives.json を書いて push で衝突するのを避ける)。
+concurrency:
+  group: twitch-fetch
+  cancel-in-progress: false
+
 jobs:
   fetch:
     runs-on: ubuntu-latest
